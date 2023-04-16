@@ -6,6 +6,7 @@ import pandas as pd
 
 sys.path.insert(1, os.path.join(os.getcwd(), "src"))
 
+from train import TweetsClassificationTrainer
 from preprocess import clean_text, split_for_validation
 
 config = configparser.ConfigParser()
@@ -14,6 +15,11 @@ config.read("config.ini")
 
 class TestPreprocess(unittest.TestCase):
     def setUp(self) -> None:
+        self.trainer = TweetsClassificationTrainer.default_trainer(
+            config["data"]["train"],
+            config["data"]["test"]
+        )
+
         self.train_path = config["data"]["train"]
         self.test_path = config["data"]["test"]
 
@@ -28,6 +34,16 @@ class TestPreprocess(unittest.TestCase):
     def test_clean_text_empty(self):
         text = ""
         self.assertEqual(clean_text(text), "")
+
+    def test_train_columns_preprocessed(self):
+        self.assertTrue("id" in self.trainer.get_train().columns)
+        self.assertTrue("tweet" in self.trainer.get_train().columns)
+        self.assertTrue("label" in self.trainer.get_train().columns)
+
+    def test_test_columns_preprocessed(self):
+        self.assertTrue("id" in self.trainer.get_train().columns)
+        self.assertTrue("tweet" in self.trainer.get_test().columns)
+        self.assertTrue("label" in self.trainer.get_test().columns)
 
     def test_split_for_validation(self):
         train_df = pd.read_csv(self.train_path)

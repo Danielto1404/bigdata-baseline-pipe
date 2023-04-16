@@ -25,25 +25,15 @@ class TestTraining(unittest.TestCase):
     def test_get_test_data(self):
         self.assertTrue(type(self.trainer.get_test()) is pd.DataFrame)
 
-    def test_train_columns_preprocessed(self):
-        self.assertTrue("id" in self.trainer.get_train().columns)
-        self.assertTrue("tweet" in self.trainer.get_train().columns)
-        self.assertTrue("label" in self.trainer.get_train().columns)
-
-    def test_test_columns_preprocessed(self):
-        self.assertTrue("id" in self.trainer.get_train().columns)
-        self.assertTrue("tweet" in self.trainer.get_test().columns)
-        self.assertTrue("label" in self.trainer.get_test().columns)
-
     def test_training_with_validation(self):
         train_f1, val_f1 = self.trainer.fit(use_validation=True)
         self.assertTrue(train_f1 is not None)
-        self.assertTrue(train_f1 is not None)
+        self.assertTrue(val_f1 is not None)
 
     def test_training_without_validation(self):
         train_f1, val_f1 = self.trainer.fit(use_validation=False)
         self.assertTrue(train_f1 is not None)
-        self.assertTrue(train_f1 is None)
+        self.assertTrue(val_f1 is None)
 
 
 if __name__ == "__main__":
