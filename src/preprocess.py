@@ -38,7 +38,7 @@ def remove_numbers(text: str) -> str:
     :param text: str - text to remove numbers from
     :return: str - text without numbers
     """
-    return re.sub("r\d+", "", text)
+    return re.sub(r"\d+", "", text)
 
 
 def remove_single_characters(text: str) -> str:
@@ -103,6 +103,7 @@ def remove_emojis(text: str) -> str:
     return re.sub(r"\\x\S+", "", text)
 
 
+
 def clean_text(text: str) -> str:
     """
     Cleans text
@@ -113,12 +114,12 @@ def clean_text(text: str) -> str:
     text = remove_symbols(text)
     text = remove_numbers(text)
     text = remove_single_characters(text)
-    text = remove_multiple_spaces(text)
     text = remove_html_tags(text)
     text = remove_urls(text)
     text = remove_mentions(text)
     text = remove_hashtags(text)
     text = remove_emojis(text)
+    text = remove_multiple_spaces(text)
     return text
 
 
