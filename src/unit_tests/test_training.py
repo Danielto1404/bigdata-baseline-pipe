@@ -14,8 +14,8 @@ config.read("config.ini")
 
 class TestTraining(unittest.TestCase):
     def setUp(self) -> None:
-        self.trainer = TweetsClassificationTrainer.default_trainer(config['data']['train'],
-                                                                   config['data']['test'])
+        self.trainer = TweetsClassificationTrainer.default_trainer(config["data"]["train"],
+                                                                   config["data"]["test"])
 
     def test_get_train_data(self):
         self.assertTrue(type(self.trainer.get_train()) is pd.DataFrame)
