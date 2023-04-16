@@ -129,4 +129,7 @@ dmypy.json
 .pyre/
 
 # Place data for non local DVC
-# /data 
+# /data
+
+# Ignore all files in the .idea folder
+.idea/

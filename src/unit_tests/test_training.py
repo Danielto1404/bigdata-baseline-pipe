@@ -1,39 +1,35 @@
 import configparser
 import os
+import sys
 import unittest
 import pandas as pd
-import sys
+from train import TweetsClassificationTrainer
 
 sys.path.insert(1, os.path.join(os.getcwd(), "src"))
 
-from train import MultiModel
 
 config = configparser.ConfigParser()
 config.read("config.ini")
 
 
-class TestMultiModel(unittest.TestCase):
-
+class TestTraining(unittest.TestCase):
     def setUp(self) -> None:
-        self.multi_model = MultiModel()
+        self.trainer = TweetsClassificationTrainer.default_trainer(config['data']['train'],
+                                                                   config['data']['test'])
 
-    def test_log_reg(self):
-        self.assertEqual(self.multi_model.log_reg(), True)
+    def test_get_train_data(self):
+        self.assertTrue(type(self.trainer.get_train()) is pd.DataFrame)
 
-    def test_rand_forest(self):
-        self.assertEqual(self.multi_model.rand_forest(use_config=False), True)
+    def test_get_test_data(self):
+        self.assertTrue(type(self.trainer.get_test()) is pd.DataFrame)
 
-    def test_knn(self):
-        self.assertEqual(self.multi_model.knn(use_config=False), True)
+    def test_train_columns_preprocessed(self):
+        self.assertTrue("tweet" in self.trainer.get_train().columns)
+        self.assertTrue("label" in self.trainer.get_train().columns)
 
-    def test_svm(self):
-        self.assertEqual(self.multi_model.svm(use_config=False), True)
-
-    def test_gnb(self):
-        self.assertEqual(self.multi_model.gnb(), True)
-
-    def test_d_tree(self):
-        self.assertEqual(self.multi_model.d_tree(use_config=False), True)
+    def test_test_columns_preprocessed(self):
+        self.assertTrue("tweet" in self.trainer.get_test().columns)
+        self.assertTrue("label" in self.trainer.get_test().columns)
 
 
 if __name__ == "__main__":
