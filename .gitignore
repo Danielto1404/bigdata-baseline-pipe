@@ -133,3 +133,6 @@ dmypy.json
 
 # Ignore all files in the .idea folder
 .idea/
+
+data/
+```

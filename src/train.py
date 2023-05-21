@@ -1,18 +1,19 @@
 import argparse
 import configparser
 import logging
+import os
 import pickle
 import sys
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import f1_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
+
 from preprocess import clean_text, split_for_validation
-import os
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 

@@ -2,12 +2,13 @@ import configparser
 import os
 import sys
 import unittest
+
 import pandas as pd
 
 sys.path.insert(1, os.path.join(os.getcwd(), "src"))
 
-from train import TweetsClassificationTrainer
 from preprocess import clean_text, split_for_validation
+from train import TweetsClassificationTrainer
 
 config = configparser.ConfigParser()
 config.read("config.ini")
@@ -47,8 +48,6 @@ class TestPreprocess(unittest.TestCase):
 
     def test_split_for_validation(self):
         train_df = pd.read_csv(self.train_path)
-        x_train, y_train = train_df["tweet"], train_df["label"]
-        x_train = x_train.apply(clean_text)
         x_train, x_val, y_train, y_val = split_for_validation(train_df)
         self.assertTrue(len(x_train) > 0)
         self.assertTrue(len(x_val) > 0)
