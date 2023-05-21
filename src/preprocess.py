@@ -7,6 +7,8 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from sklearn.model_selection import train_test_split
 
+import constants
+
 nltk.download("stopwords", quiet=True)
 
 stop_words = set(stopwords.words("english"))
@@ -103,7 +105,6 @@ def remove_emojis(text: str) -> str:
     return re.sub(r"\\x\S+", "", text)
 
 
-
 def clean_text(text: str) -> str:
     """
     Cleans text
@@ -132,8 +133,8 @@ def split_for_validation(train_df: pd.DataFrame, split_seed=42) -> tp.Tuple[
     :param split_seed: int - seed for train_test_split
     :return: x_train, y_train, x_val, y_val - 4 dataframes for train and validation
     """
-    x = train_df["tweet"]
-    y = train_df["label"]
+    x = train_df[constants.TEXT_COLUMN]
+    y = train_df[constants.LABEL_COLUMN]
     return train_test_split(x, y, stratify=y, test_size=0.2, shuffle=True, random_state=split_seed)
 
 

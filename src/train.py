@@ -13,6 +13,7 @@ from sklearn.metrics import f1_score
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 
+import constants
 from preprocess import clean_text, split_for_validation
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
@@ -39,14 +40,14 @@ class TweetsClassificationTrainer:
         self.train_path = train_path
         self.test_path = test_path
 
-    def get_train(self) -> pd.DataFrame:
+    def get_train_data(self) -> pd.DataFrame:
         """Returns train data as pandas DataFrame
         """
-        return pd.read_csv(self.train_path)
+        return pd.read_csv(self.train_path, encoding=config["data"]["encoding"])
 
-    def get_test(self) -> pd.DataFrame:
+    def get_test_data(self) -> pd.DataFrame:
         """Returns test data as pandas DataFrame"""
-        return pd.read_csv(self.test_path)
+        return pd.read_csv(self.test_path, encoding=config["data"]["encoding"])
 
     def fit(self, use_validation: bool = False) -> (float, float):
         """
@@ -54,8 +55,8 @@ class TweetsClassificationTrainer:
         :param use_validation: bool - whether to use validation data
         :return: train_f1, val_f1 - f1 scores for train and validation data
         """
-        train_df = self.get_train()
-        x_train, y_train = train_df["tweet"], train_df["label"]
+        train_df = self.get_train_data()
+        x_train, y_train = train_df[constants.TEXT_COLUMN], train_df[constants.LABEL_COLUMN]
         x_train = x_train.apply(clean_text)
 
         if use_validation:
@@ -86,7 +87,7 @@ class TweetsClassificationTrainer:
         :param data: DataFrame - data to predict on
         :return: DataFrame - predictions
         """
-        data = data["tweet"].apply(clean_text)
+        data = data[constants.TEXT_COLUMN].apply(clean_text)
         return self.model.predict(data)
 
     def save_model(self, model_save_path: str):
@@ -124,6 +125,7 @@ def main():
     args = parser.parse_args()
 
     trainer = TweetsClassificationTrainer.default_trainer(args.train, args.test)
+    logging.info("Fitting model")
     train_f1, valid_f1 = trainer.fit(use_validation=True)
 
     logging.info(f"Train F1 {train_f1} | Valid F1 {valid_f1}")
@@ -132,7 +134,10 @@ def main():
     model_save_path = f"experiments/{args.exp_name}/model.pkl"
     test_preds_path = f"experiments/{args.exp_name}/test_preds.csv"
 
-    labels = trainer.predict(trainer.get_test())
+    logging.info("Predicting on test data")
+    test_df = trainer.get_test_data()
+    labels = trainer.predict(test_df)
+    logging.info("Saving test predictions")
     pd.DataFrame({"label": labels}).to_csv(test_preds_path, header=True, index=False)
 
     trainer.save_model(model_save_path)

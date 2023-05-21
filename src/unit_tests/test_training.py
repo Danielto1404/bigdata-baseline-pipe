@@ -21,10 +21,10 @@ class TestTraining(unittest.TestCase):
         )
 
     def test_get_train_data(self):
-        self.assertTrue(type(self.trainer.get_train()) is pd.DataFrame)
+        self.assertTrue(type(self.trainer.get_train_data()) is pd.DataFrame)
 
     def test_get_test_data(self):
-        self.assertTrue(type(self.trainer.get_test()) is pd.DataFrame)
+        self.assertTrue(type(self.trainer.get_test_data()) is pd.DataFrame)
 
     def test_training_with_validation(self):
         train_f1, val_f1 = self.trainer.fit(use_validation=True)

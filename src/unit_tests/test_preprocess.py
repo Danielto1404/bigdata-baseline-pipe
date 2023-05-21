@@ -7,6 +7,7 @@ import pandas as pd
 
 sys.path.insert(1, os.path.join(os.getcwd(), "src"))
 
+import constants
 from preprocess import clean_text, split_for_validation
 from train import TweetsClassificationTrainer
 
@@ -37,17 +38,18 @@ class TestPreprocess(unittest.TestCase):
         self.assertEqual(clean_text(text), "")
 
     def test_train_columns_preprocessed(self):
-        self.assertTrue("id" in self.trainer.get_train().columns)
-        self.assertTrue("tweet" in self.trainer.get_train().columns)
-        self.assertTrue("label" in self.trainer.get_train().columns)
+        train_data = self.trainer.get_train_data()
+        self.assertTrue(constants.ITEM_ID_COLUMN in train_data.columns)
+        self.assertTrue(constants.TEXT_COLUMN in train_data.columns)
+        self.assertTrue(constants.LABEL_COLUMN in train_data.columns)
 
     def test_test_columns_preprocessed(self):
-        self.assertTrue("id" in self.trainer.get_train().columns)
-        self.assertTrue("tweet" in self.trainer.get_test().columns)
-        self.assertTrue("label" in self.trainer.get_test().columns)
+        test_data = self.trainer.get_test_data()
+        self.assertTrue(constants.ITEM_ID_COLUMN in test_data.columns)
+        self.assertTrue(constants.TEXT_COLUMN in test_data.columns)
 
     def test_split_for_validation(self):
-        train_df = pd.read_csv(self.train_path)
+        train_df = pd.read_csv(self.train_path, encoding=config["data"]["encoding"])
         x_train, x_val, y_train, y_val = split_for_validation(train_df)
         self.assertTrue(len(x_train) > 0)
         self.assertTrue(len(x_val) > 0)
