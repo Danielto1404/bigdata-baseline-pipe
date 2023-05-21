@@ -136,7 +136,7 @@ def main():
 
     logging.info("Predicting on test data")
     test_df = trainer.get_test_data()
-    labels = trainer.predict(test_df)
+    labels = trainer.predict(test_df.iloc[:100])
     logging.info("Saving test predictions")
     pd.DataFrame({"label": labels}).to_csv(test_preds_path, header=True, index=False)
 
