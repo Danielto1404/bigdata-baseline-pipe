@@ -14,6 +14,11 @@ Using technologies:
 
 ___
 
+### Links: 
+* [Docker Image]()
+
+___
+
 ### Dataset
 
 Twitter Sentiment Analysis Dataset from [Kaggle](https://www.kaggle.com/c/twitter-sentiment-analysis2).
@@ -44,9 +49,4 @@ python -m unittest src/unit_tests/test_preprocess.py
 Run model training tests:
 ```bash
 python -m unittest src/unit_tests/test_training.py
-```
-
-Run unit tests:
-```bash
-python -m unittest discover src/unit_tests
 ```
