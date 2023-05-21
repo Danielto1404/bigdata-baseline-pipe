@@ -16,11 +16,14 @@ ___
 
 ### Dataset
 
+Twitter Sentiment Analysis Dataset from [Kaggle](https://www.kaggle.com/c/twitter-sentiment-analysis2).
+Sentiment analysis is a common task in the field of Natural Language Processing (NLP). It is used to determine whether a piece of text is positive, negative, or neutral. In this dataset, the task is to classify the sentiment of tweets from Twitter.
+
 
 ___
 
 ### Workflow
-1. Download dataset from [Kaggle](https://www.kaggle.com/c/titanic/data)
+1. Download dataset from [Kaggle](https://www.kaggle.com/c/twitter-sentiment-analysis2)
 2. Analyze dataset and create simple baseline model in this [notebook](./notebooks/twitter-sentiment-analysis.ipynb)
 3. Transform notebook to python scripts in [src](./src) folder
 4. Put dataset into S3 bucket using DVC
