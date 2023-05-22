@@ -15,7 +15,7 @@ Using technologies:
 ___
 
 ### Links: 
-* [Docker Image]()
+* Docker Image: [ml-pipe-twitter-sentiment](https://hub.docker.com/repository/docker/danielto1404/ml-pipe-twitter-sentiment/general)
 
 ___
 
@@ -49,4 +49,33 @@ python -m unittest src/unit_tests/test_preprocess.py
 Run model training tests:
 ```bash
 python -m unittest src/unit_tests/test_training.py
+```
+
+
+### Logs from CD pipeline
+```bash
+twitter-sentiment_1  | INFO:root:Fitting model
+twitter-sentiment_1  | INFO:root:Train F1 0.8117694303924563 | Valid F1 0.7406303833044623
+twitter-sentiment_1  | INFO:root:Predicting on test data
+twitter-sentiment_1  | INFO:root:Saving test predictions
+twitter-sentiment_1  | ......
+twitter-sentiment_1  | ----------------------------------------------------------------------
+twitter-sentiment_1  | Ran 6 tests in 0.679s
+twitter-sentiment_1  | 
+twitter-sentiment_1  | OK
+twitter-sentiment_1  | ....
+twitter-sentiment_1  | ----------------------------------------------------------------------
+twitter-sentiment_1  | Ran 4 tests in 21.795s
+twitter-sentiment_1  | 
+twitter-sentiment_1  | OK
+twitter-sentiment_1  | Name                                Stmts   Miss  Cover   Missing
+twitter-sentiment_1  | -----------------------------------------------------------------
+twitter-sentiment_1  | src/constants.py                        3      0   100%
+twitter-sentiment_1  | src/preprocess.py                      49      3    94%   23-25
+twitter-sentiment_1  | src/train.py                           75     23    69%   90-91, 95-96, 121-143, 147
+twitter-sentiment_1  | src/unit_tests/test_preprocess.py      43      0   100%
+twitter-sentiment_1  | src/unit_tests/test_training.py        26      0   100%
+twitter-sentiment_1  | -----------------------------------------------------------------
+twitter-sentiment_1  | TOTAL                                 196     26    87%
+bigdata-course-01_twitter-sentiment_1 exited with code 0
 ```
